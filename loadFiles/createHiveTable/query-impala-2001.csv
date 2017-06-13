@@ -1,0 +1,42 @@
+id,table_name,param_name,param_val,logical_table_name,primary_keys,job_type,table_type
+1,AREA,fields-terminated-by,|,AREA,n_name,sqoop1,dim
+1,AREA,num-mappers,1,AREA,n_name,sqoop1,dim
+1,AREA,outdir,sqoopFiles,AREA,n_name,sqoop1,dim
+1,AREA,warehouse-dir,retaildb,AREA,n_name,sqoop1,dim
+2,ITEM,fields-terminated-by,|,ITEM,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,dim
+2,ITEM,num-mappers,3,ITEM,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,dim
+2,ITEM,outdir,sqoopFiles,ITEM,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,dim
+2,ITEM,split-by,L_ORDERKEY,ITEM,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,dim
+2,ITEM,warehouse-dir,retaildb,ITEM,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,dim
+3,ITEMPPI,fields-terminated-by,|,ITEM_PARTS,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,fact
+3,ITEMPPI,num-mappers,3,ITEM_PARTS,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,fact
+3,ITEMPPI,outdir,sqoopFiles,ITEM_PARTS,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,fact
+3,ITEMPPI,split-by,L_ORDERKEY,ITEM_PARTS,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,fact
+3,ITEMPPI,warehouse-dir,retaildb,ITEM_PARTS,"l_shipdate, l_orderkey, l_partkey, l_suppkey",sqoop1,fact
+4,CONTRACT,fields-terminated-by,|,CONTRACT,o_orderkey,sqoop2,dim
+4,CONTRACT,num-mappers,2,CONTRACT,o_orderkey,sqoop2,dim
+4,CONTRACT,outdir,sqoopFiles,CONTRACT,o_orderkey,sqoop2,dim
+4,CONTRACT,split-by,O_ORDERKEY,CONTRACT,o_orderkey,sqoop2,dim
+4,CONTRACT,warehouse-dir,retaildb,CONTRACT,o_orderkey,sqoop2,dim
+5,CLIENT,fields-terminated-by,|,CLIENT,c_custkey,sqoop2,dim
+5,CLIENT,num-mappers,2,CLIENT,c_custkey,sqoop2,dim
+5,CLIENT,outdir,sqoopFiles,CLIENT,c_custkey,sqoop2,dim
+5,CLIENT,split-by,C_CUSTKEY,CLIENT,c_custkey,sqoop2,dim
+5,CLIENT,warehouse-dir,retaildb,CLIENT,c_custkey,sqoop2,dim
+6,PRODUCT,fields-terminated-by,|,PRODUCT,p_partkey,sqoop2,dim
+6,PRODUCT,num-mappers,2,PRODUCT,p_partkey,sqoop2,dim
+6,PRODUCT,outdir,sqoopFiles,PRODUCT,p_partkey,sqoop2,dim
+6,PRODUCT,split-by,P_PARTKEY,PRODUCT,p_partkey,sqoop2,dim
+6,PRODUCT,warehouse-dir,retaildb,PRODUCT,p_partkey,sqoop2,dim
+7,REGION,fields-terminated-by,|,REGION,r_regionkey,sqoop3,dim
+7,REGION,num-mappers,1,REGION,r_regionkey,sqoop3,dim
+7,REGION,outdir,sqoopFiles,REGION,r_regionkey,sqoop3,dim
+7,REGION,warehouse-dir,retaildb,REGION,r_regionkey,sqoop3,dim
+8,EMPLOYEE,fields-terminated-by,|,EMPLOYEE,empno,sqoop3,dim
+8,EMPLOYEE,num-mappers,2,EMPLOYEE,empno,sqoop3,dim
+8,EMPLOYEE,outdir,sqoopFiles,EMPLOYEE,empno,sqoop3,dim
+8,EMPLOYEE,warehouse-dir,retaildb,EMPLOYEE,empno,sqoop3,dim
+9,PROVIDER,fields-terminated-by,|,PROVIDER,s_suppkey,sqoop3,dim
+9,PROVIDER,num-mappers,1,PROVIDER,s_suppkey,sqoop3,dim
+9,PROVIDER,outdir,sqoopFiles,PROVIDER,s_suppkey,sqoop3,dim
+9,PROVIDER,warehouse-dir,retaildb,PROVIDER,s_suppkey,sqoop3,dim

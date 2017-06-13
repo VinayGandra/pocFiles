@@ -1,0 +1,39 @@
+var teraTable = "AREA"
+
+# ISSUE: Parameters hardcoded dbname, tablename, username, password, etc.
+val tops = Map("url"->"jdbc:teradata://10.1.50.105/DATABASE=retail, TMODE=TERA, user=dbc, password=dbc","dbtable"->teraTable, "driver"->"com.teradata.jdbc.TeraDriver")
+
+val tdf = sqlContext.read.format("jdbc").options(tops).load()
+
+val tSchema = tdf.schema
+
+# ISSUE: Hardcoded hdfs data file location
+val rdd = sc.textFile("hdfs://10.1.50.48:8020/user/tushar/TDInput/AREA/part-m-00000")
+
+import org.apache.spark.sql.Row
+
+// ISSUE:Casting Hardcoded.
+val rowRDD = rdd.map(_.split(",")).map(p => Row(p(0).toInt, p(1).trim,p(2).toInt,p(3).trim))
+
+val hiveDF = sqlContext.createDataFrame(rowRDD, tSchema)
+
+// Optional lowercase conversion for kudu support. If continued with lowercase table names, column names also need to be converted to lowercase for kudu support.
+
+var hiveTableName = teraTable.toLowerCase
+
+// ISSUE:Hive table name hardcoded but needs to pick from above var hiveTableName
+// This method is not suitable for creating hive tables in parquet format with date types and some other types.
+hiveDF.write().saveAsTable("tera_db.dfarea")
+
+// Another way to create hive table. Ambiguity in above option about being deprecated in Spark 2.x.
+hiveDF.registerTempTable("TempTable")
+
+// Optional: lowercase conversion for kudu support. If continued with lowercase table names, column names also need to be converted to lowercase for kudu support.
+var hiveTableName = teraTable.toLowerCase
+
+// ISSUE:Hive table name hardcoded but needs to pick from above var hiveTableName
+sqlContext.sql("create table tera_db.area as select * from hiveTable")
+
+# NOTE: "area" has been successfully created and verified as well. But the above command is giving an error due to cluster config.
+# ERROR: hdfs.KeyProviderCache: Could not find uri with key [dfs.encryption.key.provider.uri] to create a keyProvider !!
+

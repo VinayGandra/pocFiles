@@ -1,0 +1,36 @@
+CREATE TABLE store_sales
+
+PRIMARY KEY (ss_item_sk, ss_ticket_number, ss_sold_date_sk)
+
+PARTITION BY HASH(ss_sold_date_sk) PARTITIONS 16
+ 
+STORED AS KUDU AS
+
+SELECT ss_item_sk, ss_ticket_number, ss_sold_date_sk, ss_sold_time_sk, 
+ss_customer_sk, ss_cdemo_sk, ss_hdemo_sk, ss_addr_sk, 
+ss_store_sk, ss_promo_sk, ss_quantity, 
+CAST(ss_wholesale_cost AS DOUBLE) ss_wholesale_cost,
+
+CAST(ss_list_price AS DOUBLE) ss_list_price, 
+
+CAST(ss_sales_price AS DOUBLE) ss_sales_price, 
+
+CAST(ss_ext_discount_amt AS DOUBLE) ss_ext_discount_amt, 
+
+CAST(ss_ext_sales_price AS DOUBLE) ss_ext_sales_price, 
+
+CAST(ss_ext_wholesale_cost AS DOUBLE) ss_ext_wholesale_cost, 
+
+CAST(ss_ext_list_price AS DOUBLE) ss_ext_list_price, 
+
+CAST(ss_ext_tax AS DOUBLE) ss_ext_tax, 
+
+CAST(ss_coupon_amt AS DOUBLE) ss_coupon_amt, 
+
+CAST(ss_net_paid AS DOUBLE) ss_net_paid, 
+
+CAST(ss_net_paid_inc_tax AS DOUBLE) ss_net_paid_inc_tax, 
+
+CAST(ss_net_profit AS DOUBLE) ss_net_profit 
+
+FROM tpcds_parquet.et_store_sales;

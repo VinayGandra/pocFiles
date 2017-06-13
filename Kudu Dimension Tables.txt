@@ -1,0 +1,50 @@
+CREATE TABLE customer PRIMARY KEY(c_customer_sk) PARTITION BY HASH(c_customer_sk) PARTITIONS 16 STORED AS KUDU AS SELECT * FROM tpcds_parquet.et_customer;
+
+
+
+CREATE TABLE customer_address PRIMARY KEY(ca_address_sk) PARTITION BY HASH(ca_address_sk) PARTITIONS 16 STORED AS KUDU AS SELECT 
+ca_address_sk, ca_address_id, ca_street_number, ca_street_name, ca_street_type, ca_suite_number, ca_city, ca_county, ca_state, ca_zip, ca_country, 
+CAST(ca_gmt_offset AS DOUBLE) ca_gmt_offset, ca_location_type FROM tpcds_parquet.et_customer_address;
+
+
+
+CREATE TABLE customer_demographics PRIMARY KEY(cd_demo_sk) PARTITION BY HASH(cd_demo_sk) PARTITIONS 16 STORED AS KUDU AS SELECT * FROM tpcds_parquet.et_customer_demographics;
+
+
+
+CREATE TABLE date_dim PRIMARY KEY(d_date_sk) PARTITION BY HASH(d_date_sk) PARTITIONS 16 STORED AS KUDU AS SELECT * FROM tpcds_parquet.et_date_dim;
+
+
+
+CREATE TABLE household_demographics PRIMARY KEY(hd_demo_sk) PARTITION BY HASH(hd_demo_sk) PARTITIONS 16 STORED AS KUDU AS SELECT * FROM tpcds_parquet.et_household_demographics;
+
+
+
+CREATE TABLE inventory PRIMARY KEY(inv_date_sk) PARTITION BY HASH(inv_date_sk) PARTITIONS 16 STORED AS KUDU AS SELECT * FROM tpcds_parquet.et_inventory;
+
+
+
+CREATE TABLE item PRIMARY KEY(i_item_sk) PARTITION BY HASH(i_item_sk) PARTITIONS 16 STORED AS KUDU AS SELECT 
+i_item_sk, i_item_id, i_rec_start_date, i_rec_end_date, i_item_desc, CAST (i_current_price AS DOUBLE) i_current_price, CAST(i_wholesale_cost AS DOUBLE) i_wholesale_cost,
+i_brand_id, i_brand, i_class_id, i_class, i_category_id, i_category, i_manufact_id, i_manufact, i_size, 
+i_formulation, i_color, i_units, i_container, i_manager_id, i_product_name FROM tpcds_parquet.et_item;
+
+
+
+CREATE TABLE promotion PRIMARY KEY(p_promo_sk) PARTITION BY HASH(p_promo_sk) PARTITIONS 16 STORED AS KUDU AS SELECT
+p_promo_sk, p_promo_id, p_start_date_sk, p_end_date_sk, p_item_sk, CAST(p_cost AS DOUBLE) p_cost,  p_response_target, 
+p_promo_name, p_channel_dmail, p_channel_email, p_channel_catalog, p_channel_tv, p_channel_radio, p_channel_press, p_channel_event, 
+p_channel_demo, p_channel_details, p_purpose, p_discount_active FROM tpcds_parquet.et_promotion;
+
+
+
+CREATE TABLE store PRIMARY KEY(s_store_sk) PARTITION BY HASH(s_store_sk) PARTITIONS 16 STORED AS KUDU AS SELECT
+s_store_sk, s_rec_end_date, s_store_id, s_market_manager, s_company_id, s_company_name, s_country, 
+s_closed_date_sk, s_store_name, s_market_desc, s_division_id, s_street_number, s_zip, CAST(s_gmt_offset AS DOUBLE) s_gmt_offset, CAST(s_tax_precentage AS DOUBLE) s_tax_precentage, 
+s_rec_start_date, s_number_employees, s_geography_class, s_street_name, s_street_type, s_state, 
+s_floor_space, s_hours, s_manager, s_market_id, s_division_name, s_suite_number, s_city, s_county FROM tpcds_parquet.et_store;
+
+
+
+CREATE TABLE time_dim PRIMARY KEY (t_time_sk) PARTITION BY HASH(t_time_sk) PARTITIONS 16 STORED AS KUDU
+AS SELECT * FROM tpcds_parquet.et_time_dim;

@@ -1,0 +1,1 @@
+"select concat(table_name, group_concat(con, '')) from (select table_name, concat(\" --\", param_name, \" \", param_val) as con from param_sqoop) qr group by table_name"

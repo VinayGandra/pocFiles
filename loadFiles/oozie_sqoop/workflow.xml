@@ -1,0 +1,20 @@
+<workflow-app name="sqoopTest" xmlns="uri:oozie:workflow:0.4">
+    <start to="sqoopTest-1"/>
+    <action name="sqoopTest-1">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.4">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+	    <job-xml>sqoop-site.xml</job-xml>
+	    <command>${job}</command>	    
+	    <file>/user/oozie/share/lib/sqoop/sqoop-connector-teradata-1.6c5.jar</file>
+	    <file>/user/oozie/share/lib/sqoop/tdgssconfig.jar</file>
+	    <file>/user/oozie/share/lib/sqoop/terajdbc4.jar</file>
+        </sqoop>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Action failed</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

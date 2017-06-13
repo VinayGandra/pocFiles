@@ -1,0 +1,9 @@
+alter table tera_import.CONTRACT set location '/user/vinay/retaildb/CONTRACT';
+alter table tera_import.PRODUCT set location '/user/vinay/retaildb/PRODUCT';
+alter table tera_import.PROVIDER set location '/user/vinay/retaildb/PROVIDER';
+alter table tera_import.CLIENT set location '/user/vinay/retaildb/CLIENT';
+alter table tera_import.ITEMPPI set location '/user/vinay/retaildb/ITEMPPI';
+alter table tera_import.ITEM set location '/user/vinay/retaildb/ITEM';
+alter table tera_import.AREA set location '/user/vinay/retaildb/AREA';
+alter table tera_import.REGION set location '/user/vinay/retaildb/REGION';
+alter table tera_import.EMPLOYEE set location '/user/vinay/retaildb/EMPLOYEE';

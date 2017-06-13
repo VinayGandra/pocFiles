@@ -1,0 +1,52 @@
+import org.apache.kudu.client.CreateTableOptions
+import org.apache.kudu.spark.kudu.KuduContext
+//import org.apache.spark.sql.hive.HiveContext
+import org.apache.spark.sql.types.{DecimalType, DoubleType, StructType}
+//import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.kudu.spark.kudu._
+
+import scala.collection.mutable.ListBuffer
+import scala.collection.JavaConverters._
+
+var fieldsToCast = new ListBuffer[String]()
+
+val fieldNames = hiveDF.schema.fieldNames
+
+val fieldsCastList = fieldsToCast.toList
+
+val kuduMaster = "vm-hadoop-s4"
+
+val kc = new KuduContext(kuduMaster)
+
+val hiveDF = sqlContext.table("tpcds_parquet.et_
+
+var tmpDF = hiveDF
+
+tmpDF = tmpDF.withColumn("i_current_price ", tmpDF("i_current_price").cast(DoubleType)).drop("i_current_price").withColumnRenamed("i_current_price ", "i_current_price")
+
+val tmpDF = hiveDF.withColumn("p_cost ", hiveDF("p_cost").cast(DoubleType)).drop("p_cost").withColumnRenamed("p_cost ", "p_cost")
+
+fieldNames.foreach(x => if(hiveDF.schema(x).dataType.isInstanceOf[org.apache.spark.sql.types.DecimalType]){fieldsToCast += x})
+
+//var hiveTableSchema = tmpDF.schema.fields
+
+//hiveTableSchema.indices.foreach(x => if(hiveTableSchema(x).
+      dataType == DecimalType(5,2)){hiveTableSchema(x) = hiveTableSchema(x).copy(dataType=DoubleType)})
+
+val kuduTableName = "et_
+
+val kuduTableSchema = tmpDF.schema
+
+val kuduPrimaryKey = Seq("
+
+val kuduTableOptions = new CreateTableOptions()
+
+kuduTableOptions.setRangePartitionColumns(kuduPrimaryKey.asJava)
+
+kc.createTable(kuduTableName, kuduTableSchema, kuduPrimaryKey, kuduTableOptions)
+
+kc.insertRows(tmpDF, kuduTableName)
+
+val kOptions = Map("kudu.master"->kuduMaster, "kudu.table"->kuduTableName)
+
+val kuduDF = sqlContext.read.options(kOptions).kudu

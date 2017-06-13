@@ -1,0 +1,18 @@
+table_file = open('output_query', 'r')
+lines = table_file.readlines()
+sqoop_jobs = open('sqoop_jobs' , 'w')
+i=0
+while i < len(lines):
+	columns = lines[i].split()
+	output = 'sqoop import --connect jdbc:teradata://10.1.50.198/DATABASE=retail --username dbc --password dbc --table ' + columns[2]
+	tempval = columns[0]
+	 
+	while (tempval == lines[i].split()[0] ):
+		output = output + ' --' + columns[3] + ' ' + columns[4] 
+		i = i + 1
+		if(i < len(lines)):
+			columns = lines[i].split()
+		else:
+			break
+	sqoop_jobs.write(output)
+	sqoop_jobs.write("\n")
